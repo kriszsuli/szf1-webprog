@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bing bing bang</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f3f3f3;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        span.error {
+            color: #ff0000 !important;
+        }
+
+        span.error:empty {
+            display: none;
+        }
+
+        form {
+            width: 600px;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-radius: 30px;
+            background-color: #fff;
+        }
+
+        input,
+        textarea {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #28a745;
+            padding: 10px;
+            color: white;
+            border-radius: 3px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="contactForm">
+        <h1>Kapcsolatfelvétel</h1>
+
+        <label for="name">Név:</label>
+        <input type="text" id="name" name="name" placeholder="Írd be a neved">
+        <span class="error name"></span>
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" placeholder="Írd be az e-mailed">
+        <span class="error email"></span>
+
+        <label for="message">Üzenet:</label>
+        <textarea id="message" name="message" placeholder="Írd be az üzeneted"></textarea>
+        <span class="error message"></span>
+
+        <button type="submit">Küldés</button>
+    </form>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const message = document.getElementById('message');
+
+            let hasError = false;
+
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+            if (name.value.trim() === '') {
+                document.querySelector('.error.name').textContent = 'A név megadása kötelező!';
+                hasError = true;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email.value.trim() === '') {
+                document.querySelector('.error.email').textContent = 'Az e-mail cím megadása kötelező!';
+                hasError = true;
+            } else if (!emailRegex.test(email.value.trim())) {
+                document.querySelector('.error.email').textContent = 'Érvénytelen e-mail cím!';
+                hasError = true;
+            }
+            if (message.value.trim() === '' || message.value.length < 10) {
+                document.querySelector('.error.message').textContent = 'Az üzenetnek legalább 10 karakternek kell lennie!';
+                hasError = true;
+            }
+
+            if (!hasError) {
+                const formData = {
+                    name: name.value.trim(),
+                    email: email.value.trim(),
+                    message: message.value.trim()
+                };
+
+                fetch('server.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Hiba történt a kérés során!');
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        document.getElementById('contactForm').reset();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        });
+    </script>
+</body>
+
+</html>
