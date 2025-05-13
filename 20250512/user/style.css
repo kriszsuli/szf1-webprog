@@ -1,3 +1,14 @@
+:root {
+    --primary: #FF7EB9;
+    --secondary: #7AFcFF;
+    --accent: #FEFF9C;
+    --bg: #1A1A2E;
+    --card-bg: rgba(30, 30, 50, 0.7);
+    --text: #E2F3F5;
+    --text-light: #B8D8D8;
+    --border: rgba(255, 255, 255, 0.1);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,19 +16,82 @@
 }
 
 body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
     width: 100%;
     min-height: 100vh;
-    font-family: sans-serif;
     text-align: center;
     padding: 2em;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    position: relative;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+.bg-blob {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.4;
+    z-index: -1;
+    animation: float 15s infinite ease-in-out;
+}
+
+.blob-1 {
+    background: var(--primary);
+    top: -100px;
+    left: -100px;
+}
+
+.blob-2 {
+    background: var(--secondary);
+    bottom: -100px;
+    right: -100px;
+    animation-delay: 2.5s;
+}
+
+.blob-3 {
+    background: var(--accent);
+    top: 50%;
+    right: 10%;
+    width: 300px;
+    height: 300px;
+    animation-delay: 5s;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(20px, 20px);
+    }
+
+    50% {
+        transform: translate(-20px, 20px);
+    }
+
+    75% {
+        transform: translate(-20px, -20px);
+    }
 }
 
 h1 {
     margin-bottom: 1em;
+    font-size: 2.5rem;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .container {
@@ -28,51 +102,104 @@ h1 {
     max-width: 1200px;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 1em;
+    gap: 1.5em;
 }
 
 .user-card {
     width: 350px;
     min-height: 200px;
-    padding: 20px;
-    border: 3px solid black;
-    border-radius: 10px;
+    padding: 25px;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
     text-align: left;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 126, 185, 0.3);
 }
 
 .user-name {
-    font-size: 1.3rem;
-    margin-bottom: 0.5em;
-    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 0.3em;
+    color: var(--primary);
+    font-weight: 600;
 }
 
 .username {
     font-style: italic;
-    color: #666;
+    color: var(--accent);
     margin-bottom: 1em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
 }
 
 .contact-info {
-    margin: 0.5em 0;
+    margin: 0.8em 0;
 }
 
 .contact-info p {
-    margin: 0.3em 0;
+    margin: 0.5em 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.contact-info i {
+    width: 20px;
+    color: var(--secondary);
+    font-size: 0.9rem;
 }
 
 .company {
     font-weight: bold;
-    margin: 0.5em 0;
-    padding-top: 0.5em;
-    border-top: 1px dashed #ccc;
+    margin: 0.8em 0;
+    padding-top: 0.8em;
+    border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    color: var(--secondary);
 }
 
 .map-container {
     height: 200px;
     width: 100%;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    margin: 15px 0 5px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.map-container::before {
+    content: 'Map Preview';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .user-card {
+        width: 100%;
+        max-width: 400px;
+    }
 }
