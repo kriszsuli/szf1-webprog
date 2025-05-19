@@ -6,11 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>xd</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=JetBrains+Mono&display=swap">
+    
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
     <h1>Posztos oldal posztosoknak</h1>
-    <div class="container"></div>
+
+    <div class="addContainer" id="postForm" style="transform-origin:center center;">
+        <div class="face front">
+            <h2>Új poszt létrehozása</h2>
+            <input type="text" name="username" id="username" placeholder="Felhasználónév" required>
+            <input type="text" name="postTitle" id="postTitle" placeholder="Poszt címe" required>
+            <textarea placeholder="Üzenet helye.." name="message" id="message" required></textarea>
+            <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" data-theme="dark"></div>
+            <button id="submitPost" name="submitPost">Küldés</button>
+        </div>
+    </div>
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+    <div class="bg-blob blob-3"></div>
+    <div class="container">
+
+    </div>
     <script src="script.js"></script>
 </body>
 
